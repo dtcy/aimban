@@ -1,3 +1,4 @@
+// app/api/chat/route.ts
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
@@ -16,10 +17,6 @@ export async function POST(req: Request) {
       messages: [{ role: 'user', content: message }],
     }),
   });
-
-  if (!response.ok) {
-    return NextResponse.json({ result: 'API 호출에 실패했습니다.' });
-  }
 
   const data = await response.json();
   const messageText = data?.content?.[0]?.text || '응답을 가져오지 못했습니다.';
