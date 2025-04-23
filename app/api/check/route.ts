@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
   const { message } = await req.json();
+  console.log('Received message:', message);
 
   const db = `
   
@@ -585,7 +586,7 @@ H라인은 평평한 형태로 쿠션 두께 1.5cm로 "우레탄 폼"으로 적�
   사용자 질문: 
   ${message}
 
-  이 질문에 대해 한국어로 상세히 설명해주세요.
+  이 질문에 대해 아는것만 한국어로 짧고 명료하게 답변해주세요. 
   """`;
 
   try {

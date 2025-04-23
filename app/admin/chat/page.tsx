@@ -15,7 +15,7 @@ export default function ChatPage() {
     setResponse('');
 
     try {
-      const res = await fetch('/api/chat', {
+      const res = await fetch('/api/check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export default function ChatPage() {
 
   return (
     <main className="max-w-2xl mx-auto mt-20 p-4">
-      <h1 className="text-2xl font-bold mb-6">🚘 차량 챗봇</h1>
+      <h1 className="text-2xl font-bold mb-6">아임반 테스트</h1>
       <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
         <input
           type="text"
