@@ -2,54 +2,60 @@
 
 import { useState } from 'react';
 
-export default function Home() {
-  const [carName, setCarName] = useState('');
-  const [year, setYear] = useState('');
-  const [type, setType] = useState('');
-  const [result, setResult] = useState('');
+export default function ChatPage() {
+  const [input, setInput] = useState('');
+  const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleCheck = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
     setLoading(true);
-    setResult('');
-    const res = await fetch('/api/check', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ carName, year, type }),
-    });
-    const data = await res.json();
-    setResult(data.result);
-    setLoading(false);
+    setResponse('');
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      });
+
+      const data = await res.json();
+      setResponse(data.result);
+    } catch (err) {
+      setResponse('오류가 발생했습니다.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <main className="p-8 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">콘솔쿠션 호환 테스트</h1>
-      <input
-        type="text"
-        placeholder="차량명 (예: 쏘렌토)"
-        value={carName}
-        onChange={(e) => setCarName(e.target.value)}
-        className="input input-bordered w-full mb-2"
-      />
-      <input
-        type="text"
-        placeholder="연식 (예: 2021)"
-        value={year}
-        onChange={(e) => setYear(e.target.value)}
-        className="input input-bordered w-full mb-2"
-      />
-      <input
-        type="text"
-        placeholder="차량 유형 (예: SUV, 세단)"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        className="input input-bordered w-full mb-4"
-      />
-      <button onClick={handleCheck} className="btn btn-primary w-full mb-4" disabled={loading}>
-        {loading ? '확인 중...' : '호환성 확인'}
-      </button>
-      {result && <div className="p-4 bg-base-200 rounded">{result}</div>}
+    <main className="max-w-2xl mx-auto mt-20 p-4">
+      <h1 className="text-2xl font-bold mb-6">🚘 차량 챗봇</h1>
+      <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="예: 2020년식 아반떼는 콘솔쿠션이 맞을까요?"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="flex-1 p-2 border rounded"
+          disabled={loading}
+        />
+        <button
+          type="submit"
+          className="px-4 bg-black text-white rounded"
+          disabled={loading}
+        >
+          {loading ? '답변 중...' : '질문'}
+        </button>
+      </form>
+
+      {response && (
+        <div className="p-4 bg-gray-100 rounded whitespace-pre-line">{response}</div>
+      )}
     </main>
   );
 }
