@@ -38,7 +38,7 @@ export default function ChatPage() {
       <form onSubmit={handleSubmit} className="flex gap-2 mb-4">
         <input
           type="text"
-          placeholder="예: 2020년식 아반떼는 콘솔쿠션이 맞을까요?"
+          placeholder="차량용품 관련 질문을 해주세요!"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           className="flex-1 p-2 border rounded"
