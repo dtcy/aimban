@@ -3,8 +3,8 @@ import Header from "@/components/header"
 import Footer from "@/components/footer"
 
 export const metadata = {
-  title: "AromaPulse",
-  description: "Intelligent chat platform",
+  title: "",
+  description: "",
 }
 
 export default function RootLayout({
